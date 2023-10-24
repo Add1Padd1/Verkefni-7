@@ -53,11 +53,11 @@ const products = [
     // JavaScript gerir ekki greinarmun á tómum streng og strengjum sem innihalda eitthvað.
     // Við gætum líka notað `""` eða ` `` ` (backticks) til að skilgreina strengi en venjan er að
     // nota einfaldar gæsalappir/úrfellingarkommur (e. single quotes).
-    title: 'HTML húfa',
+    title: "HTML húfa",
 
     // Hér skilgreinum við streng í nýrri línu á eftir skilgreiningu á lykli (key) í hlutnum.
     description:
-      'Húfa sem heldur hausnum heitum og hvíslar hugsanlega að þér hvaða element væri best að nota.',
+      "Húfa sem heldur hausnum heitum og hvíslar hugsanlega að þér hvaða element væri best að nota.",
 
     // Verð sem jákvæð heiltala. Getum líka notað `1000` en það er hægt að nota undirstrik (_) til
     // að gera stórar tölur læsilegri, t.d. `100_000_000`.
@@ -66,14 +66,14 @@ const products = [
   },
   {
     id: 2,
-    title: 'CSS sokkar',
-    description: 'Sokkar sem skalast vel með hvaða fótum sem er.',
+    title: "CSS sokkar",
+    description: "Sokkar sem skalast vel með hvaða fótum sem er.",
     price: 3_000,
   },
   {
     id: 3,
-    title: 'JavaScript jakki',
-    description: 'Mjög töff jakki fyrir öll sem skrifa JavaScript reglulega.',
+    title: "JavaScript jakki",
+    description: "Mjög töff jakki fyrir öll sem skrifa JavaScript reglulega.",
     price: 20_000,
   },
   // Hér gætum við bætt við fleiri vörum í byrjun.
@@ -121,11 +121,11 @@ const cart = {
  * const price = formatPrice(123000);
  * console.log(price); // Skrifar út `123.000 kr.`
  * @param {number} price Verð til að sníða.
- * @returns Verð sniðið með íslenskum krónu.
+ * @returns {String} Verð sniðið með íslenskum krónu.
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl
  */
 function formatPrice(price) {
-  /* Útfæra */
+  return price.toString();
 }
 
 /**
@@ -136,7 +136,7 @@ function formatPrice(price) {
  * @returns `true` ef `num` er heiltala á bilinu `[min, max]`, annars `false`.
  */
 function validateInteger(num, min = 0, max = Infinity) {
-  /* Útfæra */
+  return min <= num && num <= max;
 }
 
 /**
@@ -151,7 +151,18 @@ function validateInteger(num, min = 0, max = Infinity) {
  * @returns Streng sem inniheldur upplýsingar um vöru og hugsanlega fjölda af henni.
  */
 function formatProduct(product, quantity = undefined) {
-  /* Útfæra */
+  // Truthy gildi:
+  // Öll gildi sem eru ekki falsy t.d.
+  // 1, '1', true, [], {}
+  // Falsy gildi:
+  // '', 0, null, undefined, false
+  if (quantity && quantity > 1) {
+    const total = formatPrice(quantity * product.price);
+    return `${product.title} - ${quantity}x${formatPrice(
+      product.price
+    )} samtals ${total}`;
+  }
+  return `${product.title} - ${product.price}`;
 }
 
 /**
@@ -192,22 +203,22 @@ function addProduct() {
   // Þetta er kallað „early exit“ og er gott til að koma í veg fyrir að þurfa að skrifa auka
   // skilyrði í if-setningum en getur valdið vandræðum í einhverjum tilfellum.
   // https://en.wikipedia.org/wiki/Structured_programming#Early_exit
-  const title = prompt('Titill:');
+  const title = prompt("Titill:");
   if (!title) {
-    console.error('Titill má ekki vera tómur.');
+    console.error("Titill má ekki vera tómur.");
     return;
   }
 
-  const description = prompt('Lýsing:');
+  const description = prompt("Lýsing:");
   if (!description) {
-    console.error('Lýsing má ekki vera tóm.');
+    console.error("Lýsing má ekki vera tóm.");
     return;
   }
 
   // Gerum greinarmun á verði sem streng...
-  const priceAsString = prompt('Verð:');
+  const priceAsString = prompt("Verð:");
   if (!priceAsString) {
-    console.error('Verð má ekki vera tómt.');
+    console.error("Verð má ekki vera tómt.");
     return;
   }
 
@@ -218,7 +229,7 @@ function addProduct() {
 
   // Athugum hvort við fáum löglega heiltölu sem er stærri en 0 með því að nota hjálparfallið okkar.
   if (!validateInteger(price, 1)) {
-    console.error('Verð verður að vera jákvæð heiltala.');
+    console.error("Verð verður að vera jákvæð heiltala.");
     return;
   }
 
@@ -238,6 +249,8 @@ function addProduct() {
     description,
     price,
   };
+
+  console.log(product);
 
   // Bætum vörunni aftast við fylkið okkar.
   products.push(product);
@@ -279,9 +292,7 @@ function showProducts() {
  */
 function addProductToCart() {
   /* Útfæra */
-
   /* Hér ætti að nota `validateInteger` hjálparfall til að staðfesta gögn frá notanda */
-  
   /* Til að athuga hvort vara sé til í `cart` þarf að nota `cart.lines.find` */
 }
 
