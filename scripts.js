@@ -271,7 +271,16 @@ function addProduct() {
  * @returns undefined
  */
 function showProducts() {
-  /* Útfæra */
+  products.forEach((product) => {
+    console.log(
+      `${product.id} ${product.title} — ${product.description} — ${formatPrice(
+        product.price
+      )}`
+    );
+    return;
+  });
+  // Á eftir að redda formatPrice, af einhverjum ástæðum þá virkar það ekki
+
   /* Hér ætti að nota `formatPrice` hjálparfall */
 }
 
@@ -291,7 +300,23 @@ function showProducts() {
  * @returns undefined
  */
 function addProductToCart() {
-  /* Útfæra */
+  const titleOfProduct = prompt("Auðkenni vöru:");
+  if (!validateInteger) {
+    console.error(
+      "Auðkenni vöru er ekki löglegt, verður að vera heiltala stærri en 0."
+    );
+    return;
+  }
+  if (!cart.lines.find) {
+    console.error("Vara fannst ekki.");
+    return;
+  }
+  const numberOfProducts = prompt("Fjöldi vara sem bæta á við körfu:");
+  if (!validateInteger(1, 100)) {
+    console.error("Fjöldi er ekki löglegur, lágmark 1 og hámark 99.");
+    return;
+  }
+
   /* Hér ætti að nota `validateInteger` hjálparfall til að staðfesta gögn frá notanda */
   /* Til að athuga hvort vara sé til í `cart` þarf að nota `cart.lines.find` */
 }
