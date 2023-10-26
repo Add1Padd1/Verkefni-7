@@ -272,10 +272,9 @@ function addProduct() {
  */
 function showProducts() {
   products.forEach((product) => {
+    const formattedProduct = formatPrice(product.price);
     console.log(
-      `${product.id} ${product.title} — ${product.description} — ${formatPrice(
-        product.price
-      )}`
+      `${product.id} ${product.title} — ${product.description} — ${formattedProduct}`
     );
     return;
   });
@@ -283,7 +282,6 @@ function showProducts() {
 
   /* Hér ætti að nota `formatPrice` hjálparfall */
 }
-
 /**
  * Bæta vöru við körfu.
  * Byrjar á að biðja um auðkenni vöru sem notandi vill bæta við körfu.
@@ -300,23 +298,30 @@ function showProducts() {
  * @returns undefined
  */
 function addProductToCart() {
-  const titleOfProduct = prompt("Auðkenni vöru:");
-  if (!validateInteger) {
+  const productIdAsString = prompt("Auðkenni vöru sem á að bæta við körfu:");
+  if (!productIdAsString) {
     console.error(
       "Auðkenni vöru er ekki löglegt, verður að vera heiltala stærri en 0."
     );
     return;
   }
-  if (!cart.lines.find) {
+  const productId = Number.parseInt(productIdAsString);
+
+  const product = products.find((i) => i.id === productId);
+
+  if (!product) {
     console.error("Vara fannst ekki.");
     return;
   }
-  const numberOfProducts = prompt("Fjöldi vara sem bæta á við körfu:");
-  if (!validateInteger(1, 100)) {
-    console.error("Fjöldi er ekki löglegur, lágmark 1 og hámark 99.");
-    return;
-  }
 
+  let productInCart = cart.lines.find((i) => i.product.id === productId);
+
+  if (productInCart) {
+    productInCart.quantity += 1;
+  } else {
+    const newLine = { product, quantity: 1 };
+    cart.lines.push(newLine);
+  }
   /* Hér ætti að nota `validateInteger` hjálparfall til að staðfesta gögn frá notanda */
   /* Til að athuga hvort vara sé til í `cart` þarf að nota `cart.lines.find` */
 }
