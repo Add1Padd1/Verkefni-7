@@ -298,6 +298,7 @@ function showProducts() {
  * @returns undefined
  */
 function addProductToCart() {
+  debugger;
   const productIdAsString = prompt("Auðkenni vöru sem á að bæta við körfu:");
   if (!productIdAsString) {
     console.error(
@@ -306,6 +307,7 @@ function addProductToCart() {
     return;
   }
   const productId = Number.parseInt(productIdAsString);
+  console.log(productId);
 
   const product = products.find((i) => i.id === productId);
 
